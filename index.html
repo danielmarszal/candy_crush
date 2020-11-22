@@ -1,21 +1,23 @@
 <!DOCTYPE HTML>
 
-<html lang="pl">
+<html lang="pl-PL">
 
 <head>
 	<meta charset="utf-8">
 	<title>Candy Crush</title>
 	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/game.css">
 </head>
 
 <body>
 	<div id="main">
 		<div id="top_bar"></div>
 		<div id="side_bar"></div>
-		<div id="game"></div>
+		<div id="game">
+			<div id="board"><div class="candy candy0"></div></div>
+		</div>
 		<div id="footer_bar"></div>
 		<div id="menu" class="dialog">
-			<div class="game-tittle"><h1>Candy Crush</h1></div>
 			<div id="start-game" class="menu_button"><h2>Rozpocznij grę</h2></div>
 			<div id="about" class="menu_button"><h2>O grze</h2></div>
 			<div id="leaderboard" class="menu_button"><h2>Sala chwały</h2></div>
@@ -29,6 +31,8 @@
 		window.jQuery || document.write('<script src="js/jquery-3.5.1.js"><\/script>')
 	</script>
 	<script>
+		$.getScript("js/ui.js");
+		
 		$.getScript("js/game.js")
 			.done(function() {
 				var game = new CandyCrush.Game();

@@ -3,9 +3,14 @@ var CandyCrush = window.CandyCrush || {};
 CandyCrush.Game = (function ($){
 	var Game = function(){
 		this.init = function(){
-			$("#game-start").on("click", startGame);
-		}
+			$("#start-game").on("click", startGame);
+		};
 	};
-	var startGame = function(){};
+	
+	var startGame = function(){
+		$("#start-game").off("click");
+		CandyCrush.ui.hideDialog();
+	};
+	
 	return Game;
-}(jQuery);
+})(jQuery);

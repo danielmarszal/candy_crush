@@ -1,0 +1,20 @@
+.candy {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-image: url("../img/bubble_sprite_sheet.png");
+  background-size: 400%; }
+
+.candy_0 {
+  background-position: 0 0; }
+
+.candy_1 {
+  background-position: 0 -50px; }
+
+.candy_2 {
+  background-position: 0 -100px; }
+
+.candy_3 {
+  background-position: 0 -150px; }
+
+/*# sourceMappingURL=game.css.map */

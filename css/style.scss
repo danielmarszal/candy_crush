@@ -47,6 +47,16 @@ body{
 		top: 70px;
 		width: 750px;
 		height: 620px;
+		
+		#board{
+			position: absolute;
+			left: 75px;
+			top: 10px;
+			width: 600px;
+			height: 600px;
+			background-color: rgba(0,0,180,.6);
+			display: none;
+		}
 	}
 	
 	#footer_bar{
@@ -63,38 +73,35 @@ body{
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		background-color: #166d3b;
-		background-image: linear-gradient(147deg, rgba(0,255,0,.5) 0%, rgba(0,0,0,.5) 74%);
-		border: 1px solid #00FF00;
+		//background-color: #166d3b;
+		//background-image: linear-gradient(147deg, rgba(38, 179, 255,.9) 0%, rgba(0,0,0,.4) 74%);
 		border-radius: 20px;
 		font-family: 'Architects Daughter', cursive;
+		border: 3px solid black;
 		
-		.game-tittle{
-			padding: 40px 100px 30px;
-			
-			h1{
-				font-size: 40px;
-				color: gold;
-			}
-		}
-		
-		.menu_option{
-			padding: 10px 0;
+		.menu_button{
+			padding: 10px 100px;
 			position: relative;
-			color: lightgray;
-			color: rgb(220,220,220);
+			color: black;
 			
 			h2{
-				font-size: 24px;
+				padding-bottom: 3px;
+				font-size: 30px;
 				text-align: center;
+				border-bottom: 1px solid black;
+			}
+			
+			&:first-of-type{
+				margin-top: 20px;	
 			}
 			
 			&:last-of-type{
 				margin-bottom: 20px;
+				border-bottom: none;
 			}
 			
 			&:hover{
-				color: white;
+				color: black;
 			}
 			
 			&:hover::before{
@@ -106,7 +113,7 @@ body{
 				transform: translate(-50%, -50%);
 				width: 10px;
 				height: 10px;
-				background-color: white;
+				background-color: black;
 				border-radius: 50%;
 			}
 		}
