@@ -16,10 +16,10 @@
 		<div id="footer_bar"></div>
 		<div id="menu" class="dialog">
 			<div class="game-tittle"><h1>Candy Crush</h1></div>
-			<div id="start-game" class="menu_option"><h2>Rozpocznij grę</h2></div>
-			<div id="about" class="menu_option"><h2>O grze</h2></div>
-			<div id="leaderboard" class="menu_option"><h2>Sala chwały</h2></div>
-			<div id="settings" class="menu_option"><h2>Ustawienia</h2></div>
+			<div id="start-game" class="menu_button"><h2>Rozpocznij grę</h2></div>
+			<div id="about" class="menu_button"><h2>O grze</h2></div>
+			<div id="leaderboard" class="menu_button"><h2>Sala chwały</h2></div>
+			<div id="settings" class="menu_button"><h2>Ustawienia</h2></div>
 		</div>
 	</div>
 
@@ -28,7 +28,16 @@
 	<script>
 		window.jQuery || document.write('<script src="js/jquery-3.5.1.js"><\/script>')
 	</script>
-	<script></script>
+	<script>
+		$.getScript("js/game.js")
+			.done(function() {
+				var game = new CandyCrush.Game();
+				game.init();
+			})
+			.fail(function() {
+				console.log("js not loaded (game.js)");
+			});
+	</script>
 </body>
 
 </html>
