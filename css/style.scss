@@ -75,12 +75,19 @@ body{
 		transform: translate(-50%, -50%);
 		//background-color: #166d3b;
 		//background-image: linear-gradient(147deg, rgba(38, 179, 255,.9) 0%, rgba(0,0,0,.4) 74%);
+		background-color: rgba(255,255,255,.4);
 		border-radius: 20px;
 		font-family: 'Architects Daughter', cursive;
 		border: 3px solid black;
 		
+		h1{
+			text-align: center;
+			padding: 20px 100px;
+			border-bottom: 3px solid black;
+		}
+		
 		.menu_button{
-			padding: 10px 100px;
+			padding: 10px 0;
 			position: relative;
 			color: black;
 			
@@ -88,7 +95,10 @@ body{
 				padding-bottom: 3px;
 				font-size: 30px;
 				text-align: center;
-				border-bottom: 1px solid black;
+				
+				span{
+					border-bottom: 1px solid black;
+				}
 			}
 			
 			&:first-of-type{
@@ -109,7 +119,7 @@ body{
 				content: "";
 				position: absolute;
 				top: 50%;
-				left: 25%;
+				left: 20%;
 				transform: translate(-50%, -50%);
 				width: 10px;
 				height: 10px;
