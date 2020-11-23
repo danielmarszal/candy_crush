@@ -1,5 +1,7 @@
 .candy{
 	position: absolute;
+	top: 0;
+	left: 0;
 	width: 60px;
 	height: 60px;
 	background-image: url("../img/bubble_sprite_sheet.png");
@@ -12,13 +14,13 @@
 }
 .candy_1
 {
-	background-position: 0 -50px;
+	background-position: 0 -60px;
 }
 .candy_2
 {
-	background-position: 0 -100px;
+	background-position: 0 -120px;
 }
 .candy_3
 {
-	background-position: 0 -150px;
+	background-position: 0 -180px;
 }

@@ -7,9 +7,7 @@ CandyCrush.Board = (function ($) {
 	var Board = function () {
 		var that = this;
 		var rows = createLayout();
-		this.getRows = function () {
-			return rows;
-		};
+		this.getRows = function () {return rows;};
 		return this;
 	}
 	
@@ -21,7 +19,6 @@ CandyCrush.Board = (function ($) {
 			for(var j = 0; j < NUM_COLS; j++){
 				var candy = CandyCrush.Candy.create(i, j);
 				row[j] = candy;
-				console.log(row[j]);
 			};
 			rows.push(row);
 		};
