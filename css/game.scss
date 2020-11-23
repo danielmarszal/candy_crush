@@ -1,26 +1,57 @@
-.candy{
+.candy {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 60px;
 	height: 60px;
-	background-image: url("../img/bubble_sprite_sheet.png");
-	background-size: 400%;
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
-.candy_0
-{
-	background-position: 0 0;
+.candy_0 {
+	background: url(../img/candy1.png);
+
+	&:hover {
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy1.png");
+	}
 }
-.candy_1
-{
-	background-position: 0 -60px;
+
+.candy_1 {
+	background: url(../img/candy2.png);
+
+	&:hover {
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy2.png");
+	}
 }
-.candy_2
-{
-	background-position: 0 -120px;
+
+.candy_2 {
+	background: url(../img/candy3.png);
+
+	&:hover {
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy3.png");
+	}
 }
-.candy_3
-{
-	background-position: 0 -180px;
+
+.candy_3 {
+	background: url(../img/candy4.png);
+
+	&:hover {
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy4.png");
+	}
+}
+
+.candy_4 {
+	background: url(../img/candy5.png);
+
+	&:hover {
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy5.png");
+	}
+}
+
+.candy_5 {
+	background: url(../img/candy6.png);
+
+	&:hover {
+		background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy6.png");
+	}
 }

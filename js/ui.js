@@ -24,8 +24,8 @@ CandyCrush.ui = (function($){
 					var sprite = candy.getSprite();
 					gameArea.append(sprite);
 					
-					var left = j * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES);
-					var top = i * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES);
+					var left = j * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES) + 7.5;
+					var top = i * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES) + 7.5;
 					
 					sprite.css({
 						left: left,

@@ -4,19 +4,37 @@
   left: 0;
   width: 60px;
   height: 60px;
-  background-image: url("../img/bubble_sprite_sheet.png");
-  background-size: 400%; }
+  background-size: contain;
+  background-repeat: no-repeat; }
 
 .candy_0 {
-  background-position: 0 0; }
+  background: url(../img/candy1.png); }
+  .candy_0:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy1.png"); }
 
 .candy_1 {
-  background-position: 0 -60px; }
+  background: url(../img/candy2.png); }
+  .candy_1:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy2.png"); }
 
 .candy_2 {
-  background-position: 0 -120px; }
+  background: url(../img/candy3.png); }
+  .candy_2:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy3.png"); }
 
 .candy_3 {
-  background-position: 0 -180px; }
+  background: url(../img/candy4.png); }
+  .candy_3:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy4.png"); }
+
+.candy_4 {
+  background: url(../img/candy5.png); }
+  .candy_4:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy5.png"); }
+
+.candy_5 {
+  background: url(../img/candy6.png); }
+  .candy_5:hover {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("../img/candy6.png"); }
 
 /*# sourceMappingURL=game.css.map */
