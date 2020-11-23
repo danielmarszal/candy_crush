@@ -10,6 +10,9 @@ CandyCrush.ui = (function($){
 		hideDialog: function(){
 			$(".dialog").fadeToggle(300);
 		},
+		showBoard: function(){
+			$("#board").fadeIn(300);
+		},
 		drawBoard: function(board){
 			var rows = board.getRows();
 			var gameArea = $("#board");

@@ -12,6 +12,7 @@ CandyCrush.Game = (function ($){
 	var startGame = function(){
 		$("#start-game").off("click");
 		CandyCrush.ui.hideDialog();
+		CandyCrush.ui.showBoard();
 		
 		board = new CandyCrush.Board();
 		CandyCrush.ui.drawBoard(board);
