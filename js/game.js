@@ -1,6 +1,8 @@
 var CandyCrush = window.CandyCrush || {};
 
 CandyCrush.Game = (function ($){
+	var board;
+	
 	var Game = function(){
 		this.init = function(){
 			$("#start-game").on("click", startGame);
@@ -10,6 +12,9 @@ CandyCrush.Game = (function ($){
 	var startGame = function(){
 		$("#start-game").off("click");
 		CandyCrush.ui.hideDialog();
+		
+		board = new CandyCrush.Board();
+		CandyCrush.ui.drawBoard(board);
 	};
 	
 	return Game;
