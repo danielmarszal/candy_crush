@@ -73,52 +73,52 @@ CandyCrush.ui = (function ($) {
 				}
 			}
 		},
-		setHighlightToCandy: function (candy){
-			var candy = board.getCandyAt(selectedCandy.row, selectedCandy.col);
+		setHighlightToCandy: function (candyPosition){
+			var candy = board.getCandyAt(candyPosition.row, candyPosition.col);
 			var sprite = candy.getSprite();
 			
 			sprite.css("background-color", "rgba(255,255,255,.4)");
 		},
 		deleteHighlightFromCandy: function (candy){
-			var candy = board.getCandyAt(selectedCandy.row, selectedCandy.col);
+			var candy = board.getCandyAt(selectedCandyPosition.row, selectedCandyPosition.col);
 			var sprite = candy.getSprite();
 			
 			sprite.css("background-color", "rgba(255,255,255,0");
 		},
-		checkIfSecondCandyIsAround: function(selectedCandy, secondCandy, board){
+		checkIfCandyIsAround: function(selectedCandyPosition, secondCandyPosition, board){
 			var isAround = false;
 			
-			var candies = board.getCandiesAround(selectedCandy.row, selectedCandy.col);
+			var candies = board.getCandiesAround(selectedCandyPosition.row, selectedCandyPosition.col);
 			
 			for(i = 0; i < candies.length; i++){
-				if(candies[i].getRow() == secondCandy.row && candies[i].getCol() == secondCandy.col){
+				if(candies[i].getRow() == secondCandyPosition.row && candies[i].getCol() == secondCandyPosition.col){
 					isAround = true;
 				}
 			}
 			return isAround;
 		},
-		swapCandies: function(selectedCandy, secondCandy, board, duration){
-			var selectedCandy = board.getCandyAt(selectedCandy.row, selectedCandy.col);
-			var selectedCandyLeft = selectedCandy.getCoords().left; 
-			var selectedCandyTop = selectedCandy.getCoords().top;	
+		swapCandies: function(selectedCandyPosition, secondCandyPosition, board, duration){
+			var selectedCandyPosition = board.getCandyAt(selectedCandyPosition.row, selectedCandyPosition.col);
+			var selectedCandyPositionLeft = selectedCandyPosition.getCoords().left; 
+			var selectedCandyPositionTop = selectedCandyPosition.getCoords().top;	
 			
-			var secondCandy = board.getCandyAt(secondCandy.row, secondCandy.col);
-			var secondCandyLeft = secondCandy.getCoords().left;
-			var secondCandyTop = secondCandy.getCoords().top;
+			var secondCandyPosition = board.getCandyAt(secondCandyPosition.row, secondCandyPosition.col);
+			var secondCandyPositionLeft = secondCandyPosition.getCoords().left;
+			var secondCandyPositionTop = secondCandyPosition.getCoords().top;
 			
 			
-			selectedCandy.getSprite().animate({
-				left: secondCandyLeft,
-				top: secondCandyTop
+			selectedCandyPosition.getSprite().animate({
+				left: secondCandyPositionLeft,
+				top: secondCandyPositionTop
 			},
 			{
 				duration: duration,
 				easing: "linear"
 			});
 			
-			secondCandy.getSprite().animate({
-				left: selectedCandyLeft,
-				top: selectedCandyTop
+			secondCandyPosition.getSprite().animate({
+				left: selectedCandyPositionLeft,
+				top: selectedCandyPositionTop
 			},
 			{
 				duration: duration,
@@ -126,18 +126,18 @@ CandyCrush.ui = (function ($) {
 			});
 			
 			setTimeout(function(){
-				selectedCandy.getSprite().animate({
-					left: selectedCandyLeft,
-					top: selectedCandyTop
+				selectedCandyPosition.getSprite().animate({
+					left: selectedCandyPositionLeft,
+					top: selectedCandyPositionTop
 				},
 				{
 					duration: duration,
 					easing: "linear"
 				});
 
-				secondCandy.getSprite().animate({
-					left: secondCandyLeft,
-					top: secondCandyTop
+				secondCandyPosition.getSprite().animate({
+					left: secondCandyPositionLeft,
+					top: secondCandyPositionTop
 				},
 				{
 					duration: duration,

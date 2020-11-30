@@ -3,7 +3,7 @@ var CandyCrush = window.CandyCrush || {};
 CandyCrush.Game = (function ($) {
 	var Game = function () {
 		var board;
-		var selectedCandy;
+		var selectedCandyPosition;
 
 		this.init = function () {
 			$("#start-game").on("click", startGame);
@@ -18,36 +18,36 @@ CandyCrush.Game = (function ($) {
 		board = new CandyCrush.Board();
 		CandyCrush.ui.drawBoard(board);
 
-		selectedCandy = null;
+		selectedCandyPosition = null;
 		$(".candy").on("click", clickCandy);
 	};
 
 	var clickCandy = function (e) {
 		var duration = 200;
-		var curCandy = null;
+		var curCandyPosition = null;
 		var candyPosition = CandyCrush.ui.getCandyPosition(e, board);
 		
-		if (!selectedCandy){
-			selectedCandy = candyPosition;
-			CandyCrush.ui.setHighlightToCandy(selectedCandy);
-		} else if (selectedCandy) {
-			curCandy = candyPosition;
+		if (!selectedCandyPosition){
+			selectedCandyPosition = candyPosition;
+			CandyCrush.ui.setHighlightToCandy(selectedCandyPosition);
+		} else if (selectedCandyPosition) {
+			curCandyPosition = candyPosition;
 			
-			if( !(selectedCandy.row == curCandy.row && selectedCandy.col == curCandy.col) ){
-				let	isAround = CandyCrush.ui.checkIfSecondCandyIsAround(selectedCandy, curCandy, board);
+			if( !(selectedCandyPosition.row == curCandyPosition.row && selectedCandyPosition.col == curCandyPosition.col) ){
+				let	isAround = CandyCrush.ui.checkIfCandyIsAround(selectedCandyPosition, curCandyPosition, board);
 
 				if (isAround){
-					CandyCrush.ui.swapCandies(selectedCandy, curCandy, board, duration);	
-					CandyCrush.ui.deleteHighlightFromCandy(selectedCandy);
-					selectedCandy = null;
+					CandyCrush.ui.swapCandies(selectedCandyPosition, curCandyPosition, board, duration);	
+					CandyCrush.ui.deleteHighlightFromCandy(selectedCandyPosition);
+					selectedCandyPosition = null;
 				} else {
-					CandyCrush.ui.deleteHighlightFromCandy(selectedCandy);
-					selectedCandy = curCandy;
-					CandyCrush.ui.setHighlightToCandy(selectedCandy);
+					CandyCrush.ui.deleteHighlightFromCandy(selectedCandyPosition);
+					selectedCandyPosition = curCandyPosition;
+					CandyCrush.ui.setHighlightToCandy(selectedCandyPosition);
 				}
 			} else {
-				CandyCrush.ui.deleteHighlightFromCandy(selectedCandy);
-				selectedCandy = null;	
+				CandyCrush.ui.deleteHighlightFromCandy(selectedCandyPosition);
+				selectedCandyPosition = null;	
 			};
 		}
 	}
