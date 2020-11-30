@@ -55,70 +55,63 @@ CandyCrush.ui = (function ($) {
 			}
 			return candiesCoords;
 		},
-		getCandyPosition: function (e, board) {
+		getCandyClicked: function (e, board) {
 			candiesCoords = ui.getCandiesCoords(board);
 
-			var counter = 0;
-
-			//get col and row of clicked candy
+			//calcule clicked candy
 			for (var i = 0; i < candiesCoords.length; i++) {
 				for (var j = 0; j < candiesCoords[i].length; j++) {
 					if ((ui.getMouseCoords(e).x >= candiesCoords[i][j].left && ui.getMouseCoords(e).x <= candiesCoords[i][j].left + ui.CANDY_SIZE) && (ui.getMouseCoords(e).y >= candiesCoords[i][j].top && ui.getMouseCoords(e).y <= candiesCoords[i][j].top + ui.CANDY_SIZE)) {
-						let candyPosition = {
-							row: i,
-							col: j,
-						};
-						return candyPosition;
+						let candy = board.getCandyAt(i,j);
+						return candy;
 					}
 				}
 			}
 		},
-		setHighlightToCandy: function (candyPosition){
-			var candy = board.getCandyAt(candyPosition.row, candyPosition.col);
+		setHighlightToCandy: function (candy){
 			var sprite = candy.getSprite();
 			
 			sprite.css("background-color", "rgba(255,255,255,.4)");
 		},
 		deleteHighlightFromCandy: function (candy){
-			var candy = board.getCandyAt(selectedCandyPosition.row, selectedCandyPosition.col);
 			var sprite = candy.getSprite();
 			
 			sprite.css("background-color", "rgba(255,255,255,0");
 		},
-		checkIfCandyIsAround: function(selectedCandyPosition, secondCandyPosition, board){
+		checkIfCandyIsAround: function(selectedCandy, secondCandy, board){
 			var isAround = false;
 			
-			var candies = board.getCandiesAround(selectedCandyPosition.row, selectedCandyPosition.col);
+			var candies = board.getCandiesAround(selectedCandy.getRow(), selectedCandy.getCol());
 			
 			for(i = 0; i < candies.length; i++){
-				if(candies[i].getRow() == secondCandyPosition.row && candies[i].getCol() == secondCandyPosition.col){
+				if(candies[i].getRow() == secondCandy.getRow() && candies[i].getCol() == secondCandy.getCol()){
 					isAround = true;
 				}
 			}
 			return isAround;
 		},
-		swapCandies: function(selectedCandyPosition, secondCandyPosition, board, duration){
-			var selectedCandyPosition = board.getCandyAt(selectedCandyPosition.row, selectedCandyPosition.col);
-			var selectedCandyPositionLeft = selectedCandyPosition.getCoords().left; 
-			var selectedCandyPositionTop = selectedCandyPosition.getCoords().top;	
+		swapCandies: function(selectedCandy, secondCandy, board, duration){
+			var selectedCandy = board.getCandyAt(selectedCandy.getRow(), selectedCandy.getCol());
+			var selectedCandyLeft = selectedCandy.getCoords().left; 
+			var selectedCandyTop = selectedCandy.getCoords().top;	
 			
-			var secondCandyPosition = board.getCandyAt(secondCandyPosition.row, secondCandyPosition.col);
-			var secondCandyPositionLeft = secondCandyPosition.getCoords().left;
-			var secondCandyPositionTop = secondCandyPosition.getCoords().top;
+			var secondCandy = board.getCandyAt(secondCandy.getRow(), secondCandy.getCol());
+			var secondCandyLeft = secondCandy.getCoords().left;
+			var secondCandyTop = secondCandy.getCoords().top;
 			
 			
-			selectedCandyPosition.getSprite().animate({
-				left: secondCandyPositionLeft,
-				top: secondCandyPositionTop
+			selectedCandy.getSprite().animate({
+				left: secondCandyLeft,
+				top: secondCandyTop
 			},
 			{
 				duration: duration,
 				easing: "linear"
 			});
 			
-			secondCandyPosition.getSprite().animate({
-				left: selectedCandyPositionLeft,
-				top: selectedCandyPositionTop
+			secondCandy.getSprite().animate({
+				left: selectedCandyLeft,
+				top: selectedCandyTop
 			},
 			{
 				duration: duration,
@@ -126,18 +119,18 @@ CandyCrush.ui = (function ($) {
 			});
 			
 			setTimeout(function(){
-				selectedCandyPosition.getSprite().animate({
-					left: selectedCandyPositionLeft,
-					top: selectedCandyPositionTop
+				selectedCandy.getSprite().animate({
+					left: selectedCandyLeft,
+					top: selectedCandyTop
 				},
 				{
 					duration: duration,
 					easing: "linear"
 				});
 
-				secondCandyPosition.getSprite().animate({
-					left: secondCandyPositionLeft,
-					top: secondCandyPositionTop
+				secondCandy.getSprite().animate({
+					left: secondCandyLeft,
+					top: secondCandyTop
 				},
 				{
 					duration: duration,
