@@ -1,6 +1,8 @@
 var CandyCrush = window.CandyCrush || {};
 
 CandyCrush.ui = (function ($) {
+	"use strict";
+	
 	var ui = {
 		CANDY_SIZE: 60,
 		MARGIN_BETWEEN_CANDIES: 15,
@@ -56,7 +58,7 @@ CandyCrush.ui = (function ($) {
 			return candiesCoords;
 		},
 		getCandyClicked: function (e, board) {
-			candiesCoords = ui.getCandiesCoords(board);
+			var candiesCoords = ui.getCandiesCoords(board);
 
 			//calcule clicked candy
 			for (var i = 0; i < candiesCoords.length; i++) {
@@ -83,7 +85,7 @@ CandyCrush.ui = (function ($) {
 			
 			var candies = board.getCandiesAround(selectedCandy.getRow(), selectedCandy.getCol());
 			
-			for(i = 0; i < candies.length; i++){
+			for(var i = 0; i < candies.length; i++){
 				if(candies[i].getRow() == secondCandy.getRow() && candies[i].getCol() == secondCandy.getCol()){
 					isAround = true;
 				}
