@@ -10,10 +10,16 @@ CandyCrush.Board = (function ($) {
 		
 		var that = this;
 		var rows = createLayout();
-		this.getRows = function () {return rows;};
+		this.getRows = function () {
+			return rows;
+		},
 		this.getCandyAt = function (rowNum, colNum){
 			return this.getRows()[rowNum][colNum];
-		}
+		},
+		//this.deleteCandyAt = function (rowNum, colNum){
+		//	var row = rows[rowNum];
+		//	delete row[colNum];
+		//},
 		this.getCandiesAround = function(curRow, curCol){
 			var candies = [];
 			
@@ -21,7 +27,7 @@ CandyCrush.Board = (function ($) {
 				var candyAt = that.getCandyAt(curRow - 1, curCol);
 				candies.push(candyAt)
 			} 
-			if(curRow + 1 < that.getRows().length){
+			if(curRow + 1 < rows.length){
 				var candyAt = that.getCandyAt(curRow + 1, curCol);
 				candies.push(candyAt)
 			}
@@ -29,7 +35,7 @@ CandyCrush.Board = (function ($) {
 				var candyAt = that.getCandyAt(curRow, curCol - 1);
 				candies.push(candyAt)
 			} 
-			if(curCol + 1 < that.getRows()[curRow].length){
+			if(curCol + 1 < rows[curRow].length){
 				var candyAt = that.getCandyAt(curRow, curCol + 1);
 				candies.push(candyAt)
 			}
@@ -65,8 +71,6 @@ CandyCrush.Board = (function ($) {
 		},
 		this.getGroups = function(){
 			var groups = [];
-			
-			var rows = that.getRows();
 			
 			//vertical
 			var nextType = null;
@@ -117,7 +121,6 @@ CandyCrush.Board = (function ($) {
 		this.getCandiesOfType = function(type){
 			var candies = {}
 			
-			var rows = that.getRows();
 			for(var rowNum = 0; rowNum < rows.length; rowNum++){
 				for(var colNum = 0; colNum < rows[rowNum].length; colNum++){
 					var candy = that.getCandyAt(rowNum, colNum);
@@ -141,7 +144,7 @@ CandyCrush.Board = (function ($) {
 			return candies;
 		}
 		return this;
-	}
+	};
 	
 	var createLayout = function(){
 		var rows = [];

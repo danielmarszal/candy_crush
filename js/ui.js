@@ -101,7 +101,6 @@ CandyCrush.ui = (function ($) {
 			var secondCandyLeft = secondCandy.getCoords().left;
 			var secondCandyTop = secondCandy.getCoords().top;
 			
-			
 			selectedCandy.getSprite().animate({
 				left: secondCandyLeft,
 				top: secondCandyTop

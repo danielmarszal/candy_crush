@@ -18,6 +18,11 @@ CandyCrush.Game = (function ($) {
 
 			board = new CandyCrush.Board();
 			CandyCrush.ui.drawBoard(board);
+			var groups = board.getGroups();
+			if(groups.length > 0){
+				var delay = 750;
+				crushCandies(groups, delay);
+			}
 
 			selectedCandy = null;
 			$(".candy").on("click", clickCandy);
@@ -39,12 +44,6 @@ CandyCrush.Game = (function ($) {
 					let	isAround = CandyCrush.ui.checkIfCandyIsAround(selectedCandy, curCandy, board);
 
 					if (isAround){
-						var groups = board.getGroups();
-						console.log(groups);
-						var ofType = board.getCandiesOfType(0);
-						console.log(ofType);
-						//console.log(Object.keys(group).length);
-
 						CandyCrush.ui.swapCandies(selectedCandy, curCandy, board, duration);	
 						CandyCrush.ui.deleteHighlightFromCandy(selectedCandy);
 						selectedCandy = null;
@@ -58,6 +57,19 @@ CandyCrush.Game = (function ($) {
 					selectedCandy = null;	
 				};
 			};
+		};
+		
+		var crushCandies = function(groups, delay){
+			setTimeout(function(){
+				$.each(groups, function(){
+					var candies = this;
+					$.each(candies, function(){
+						var candy = this;
+						board.deleteCandyAt(candy.getRow(), candy.getCol());
+						candy.getSprite().remove();
+					});
+				});
+			}, delay);
 		};
 	};
 	return Game;
