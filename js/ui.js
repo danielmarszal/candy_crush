@@ -146,15 +146,14 @@ CandyCrush.ui = (function ($) {
 						var left = j * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES) + ui.MARGIN_BETWEEN_CANDIES / 2;
 						var top = i * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES) + ui.MARGIN_BETWEEN_CANDIES / 2;
 						
-						var posDiff = Math.round((top - candy.getCoords().top) / 75);
-						if(posDiff > 0){
-						console.log(posDiff);
+						var rowsToDrop = Math.round((top - candy.getCoords().top) / (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES));
+						if(rowsToDrop > 0){
 							sprite.animate({
 								left: left,
 								top: top
 							},
 							{
-								duration: duration * posDiff,
+								duration: duration * rowsToDrop,
 								easing: "linear"
 							});
 						}

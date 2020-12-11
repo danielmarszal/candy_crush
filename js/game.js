@@ -20,9 +20,11 @@ CandyCrush.Game = (function ($) {
 			CandyCrush.ui.drawBoard(board);
 			var groups = board.getGroups();
 			if(groups.length > 0){
-				var delay = 750;
-				crushCandies(groups, delay);
-				dropCandies(board);
+				var delay = 400;
+				setTimeout(function(){
+					crushCandies(groups, delay);
+					dropCandies(board);
+				}, delay)
 			}
 
 			selectedCandy = null;
