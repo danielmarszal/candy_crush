@@ -16,10 +16,10 @@ CandyCrush.Board = (function ($) {
 		this.getCandyAt = function (rowNum, colNum){
 			return this.getRows()[rowNum][colNum];
 		},
-		//this.deleteCandyAt = function (rowNum, colNum){
-		//	var row = rows[rowNum];
-		//	delete row[colNum];
-		//},
+		this.deleteCandyAt = function (rowNum, colNum){
+			var row = rows[rowNum];
+			delete row[colNum];
+		},
 		this.getCandiesAround = function(curRow, curCol){
 			var candies = [];
 			
@@ -142,6 +142,34 @@ CandyCrush.Board = (function ($) {
 				}
 			}
 			return candies;
+		},
+		this.dropCandies = function(){
+		var candiesToAdd = [];	
+			for(var colNum = 0; colNum < rows.length; colNum++){
+				var emptyElements = [];
+				for(var rowNum = (rows[colNum].length - 1); rowNum >= 0 ; rowNum--){
+					var emptyPosition = {};
+					if(rows[rowNum][colNum] === undefined){
+						emptyPosition.row = rowNum;
+						emptyPosition.col = colNum;
+						emptyElements.push(emptyPosition);
+					}
+					if(rows[rowNum][colNum] !== undefined && emptyElements.length > 0){
+						var position = emptyElements[0]; 
+						rows[position.row][position.col] = rows[rowNum][colNum];
+						
+						delete rows[rowNum][colNum];
+						emptyElements.shift();
+						
+						if(rows[rowNum][colNum] === undefined){
+						emptyPosition.row = rowNum;
+						emptyPosition.col = colNum;
+						emptyElements.push(emptyPosition);
+						}
+					}
+				}
+				candiesToAdd = candiesToAdd.concat(emptyElements);
+			}
 		}
 		return this;
 	};

@@ -22,6 +22,7 @@ CandyCrush.Game = (function ($) {
 			if(groups.length > 0){
 				var delay = 750;
 				crushCandies(groups, delay);
+				dropCandies(board);
 			}
 
 			selectedCandy = null;
@@ -34,7 +35,7 @@ CandyCrush.Game = (function ($) {
 
 			var candy = CandyCrush.ui.getCandyClicked(e, board);
 
-			if (!selectedCandy){
+			/*if (!selectedCandy){
 				selectedCandy = candy;
 				CandyCrush.ui.setHighlightToCandy(selectedCandy);
 			} else if (selectedCandy) {
@@ -56,20 +57,23 @@ CandyCrush.Game = (function ($) {
 					CandyCrush.ui.deleteHighlightFromCandy(selectedCandy);
 					selectedCandy = null;	
 				};
-			};
+			};*/
 		};
 		
 		var crushCandies = function(groups, delay){
-			setTimeout(function(){
-				$.each(groups, function(){
-					var candies = this;
-					$.each(candies, function(){
-						var candy = this;
-						board.deleteCandyAt(candy.getRow(), candy.getCol());
-						candy.getSprite().remove();
-					});
+			$.each(groups, function(){
+				var candies = this;
+				$.each(candies, function(){
+					var candy = this;
+					board.deleteCandyAt(candy.getRow(), candy.getCol());
+					candy.getSprite().remove();
 				});
-			}, delay);
+			});
+		};
+		var dropCandies = function(board){
+			var duration = 300;
+			board.dropCandies()
+			CandyCrush.ui.dropCandies(duration, board);
 		};
 	};
 	return Game;
