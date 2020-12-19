@@ -18,17 +18,24 @@ CandyCrush.Game = (function ($) {
 
 			board = new CandyCrush.Board();
 			CandyCrush.ui.drawBoard(board);
+			
+			
+			var delay = 1000;
 			var groups = board.getGroups();
-			if(groups.length > 0){
-				var delay = 400;
-				setTimeout(function(){
-					crushCandies(groups, delay);
-					dropCandies(board);
-				}, delay)
-			}
+			synchCrushDropRepeat(groups, delay);
+			//groups = board.getGroups();
+			//delay = 3000;
+			//crushCandies(groups, delay);
+			//dropCandies(board, delay);
+			//while(groups.length > 0) {
+					//var delay = 2000;
+					//groups = board.getGroups();
+					//crushCandies(groups, delay);
+					//dropCandies(board, delay);
+			//} 
 
 			selectedCandy = null;
-			$(".candy").on("click", clickCandy);
+			//$(".candy").on("click", clickCandy);
 		};
 
 		var clickCandy = function (e) {
@@ -72,11 +79,36 @@ CandyCrush.Game = (function ($) {
 				});
 			});
 		};
-		var dropCandies = function(board){
-			var duration = 300;
-			board.dropCandies()
-			CandyCrush.ui.dropCandies(duration, board);
+		var dropCandies = function(delay){
+				var duration = 200;
+
+				board.dropCandies();
+	
+				var emptyPlaces = board.getEmptyPlaces();
+
+				$.each(emptyPlaces, function(){
+					var emptyInRow = this;
+					$.each(emptyInRow, function(){
+						var position = this;
+						var candy = CandyCrush.Candy.create();
+						board.addCandy(candy, position.row, position.col);
+						CandyCrush.ui.addCandy(candy, position.row, position.col, emptyInRow.length);
+					})
+				});
+				CandyCrush.ui.dropCandies(duration, board);
 		};
+		var synchCrushDropRepeat = function(groups, delay){
+				setTimeout(function(){
+					crushCandies(groups);
+					dropCandies(board);
+					groups = board.getGroups();
+					
+					if(groups.length > 0){
+						synchCrushDropRepeat(groups, delay);
+					}
+					
+				}, delay);
+			}
 	};
 	return Game;
 })(jQuery);

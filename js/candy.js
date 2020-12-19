@@ -17,6 +17,12 @@ CandyCrush.Candy = (function ($) {
 		this.getRow = function () {
 			return row;
 		};
+		this.setCol = function (colIn) {
+			col = colIn;
+		};
+		this.setRow = function (rowIn) {
+			row = rowIn;
+		}
 		this.getOffset = function () {
 			var offset = {
 				left: $("#board").offset().left + that.getCol() * (CandyCrush.ui.MARGIN_BETWEEN_CANDIES + CandyCrush.ui.CANDY_SIZE) + CandyCrush.ui.MARGIN_BETWEEN_CANDIES / 2,

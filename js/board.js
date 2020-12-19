@@ -3,8 +3,8 @@ var CandyCrush = window.CandyCrush || {};
 CandyCrush.Board = (function ($) {
 	"use strict";
 	
-	const NUM_ROWS = 8;
-	const NUM_COLS = 8;
+	var NUM_ROWS = 8;
+	var NUM_COLS = 8;
 
 	var Board = function () {
 		
@@ -16,9 +16,13 @@ CandyCrush.Board = (function ($) {
 		this.getCandyAt = function (rowNum, colNum){
 			return this.getRows()[rowNum][colNum];
 		},
+		this.addCandy = function(candy, rowNum, colNum){
+			rows[rowNum][colNum] = candy;	
+			candy.setRow(rowNum);
+			candy.setCol(colNum);
+		},
 		this.deleteCandyAt = function (rowNum, colNum){
-			var row = rows[rowNum];
-			delete row[colNum];
+			delete rows[rowNum][colNum];
 		},
 		this.getCandiesAround = function(curRow, curCol){
 			var candies = [];
@@ -42,37 +46,10 @@ CandyCrush.Board = (function ($) {
 			
 			return candies;
 		},
-		this.getGroupAt = function(candy, found){
-			var curRow = candy.getRow();
-			var curCol = candy.getCol();
-
-			if(!found[curRow]){
-				found[curRow] = {};
-			}
-			if(!found.list){				
-				found.list = [];	
-			}
-			if(found[curRow][curCol]){
-				return found;
-			}
-
-			found[curRow][curCol] = candy;
-			found.list.push(candy);
-
-			var surrounding = that.getCandiesAround(curRow, curCol);
-			//console.log(surrounding.length);
-			for(var i = 0; i<surrounding.length; i++){
-				var candyAt = surrounding[i];
-				if(candyAt.getType() == candy.getType()){
-					found = that.getGroup(candyAt, found);
-				};
-			};	
-			return found;
-		},
 		this.getGroups = function(){
 			var groups = [];
 			
-			//vertical
+			//horizontal
 			var nextType = null;
 			for(var i = 0; i < rows.length; i++){
 				var group = [];
@@ -85,7 +62,6 @@ CandyCrush.Board = (function ($) {
 						nextType = that.getCandyAt(i, j + 1).getType();
 					} else nextType = null;
 					
-					
 					group.push(candy);
 					
 					if(!(type == nextType)){
@@ -95,7 +71,7 @@ CandyCrush.Board = (function ($) {
 					
 				}
 			}
-			//horizontal
+			//vertical
 			var nextType = null;
 			for(var i = 0; i < rows.length; i++){
 				var group = [];
@@ -144,32 +120,53 @@ CandyCrush.Board = (function ($) {
 			return candies;
 		},
 		this.dropCandies = function(){
-		var candiesToAdd = [];	
+			var emptyPlaces = [];	
 			for(var colNum = 0; colNum < rows.length; colNum++){
-				var emptyElements = [];
+				var emptyInRow = [];
 				for(var rowNum = (rows[colNum].length - 1); rowNum >= 0 ; rowNum--){
-					var emptyPosition = {};
-					if(rows[rowNum][colNum] === undefined){
-						emptyPosition.row = rowNum;
-						emptyPosition.col = colNum;
-						emptyElements.push(emptyPosition);
+					var position = {};
+					var candy = rows[rowNum][colNum];
+					if(candy === undefined){
+						position.row = rowNum;
+						position.col = colNum;
+						emptyInRow.push(position);
 					}
-					if(rows[rowNum][colNum] !== undefined && emptyElements.length > 0){
-						var position = emptyElements[0]; 
-						rows[position.row][position.col] = rows[rowNum][colNum];
+					if(candy !== undefined && emptyInRow.length > 0){
+						var position = emptyInRow[0]; 
+						candy.setRow(position.row);
+						candy.setCol(position.col);
+						rows[position.row][position.col] = candy;
 						
 						delete rows[rowNum][colNum];
-						emptyElements.shift();
+						emptyInRow.shift();
 						
 						if(rows[rowNum][colNum] === undefined){
-						emptyPosition.row = rowNum;
-						emptyPosition.col = colNum;
-						emptyElements.push(emptyPosition);
+							position.row = rowNum;
+							position.col = colNum;
+							emptyInRow.push(position);
 						}
 					}
 				}
-				candiesToAdd = candiesToAdd.concat(emptyElements);
+				emptyPlaces = emptyPlaces.concat(emptyInRow);
 			}
+		},
+		this.getEmptyPlaces = function(){
+			var emptyPlaces = [];
+			for(var colNum = 0; colNum < rows.length; colNum++){
+				var emptyInRow = [];
+				for(var rowNum = 0; rowNum < rows[colNum].length; rowNum++){
+					var position = {};
+					if(rows[rowNum][colNum] === undefined){
+						position.row = rowNum;
+						position.col = colNum;
+						emptyInRow.push(position);
+					} else {
+						if(emptyInRow.length > 0) emptyPlaces.push(emptyInRow);
+						break;
+					}
+				}
+			}
+			return emptyPlaces;
 		}
 		return this;
 	};

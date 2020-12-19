@@ -18,7 +18,6 @@ CandyCrush.ui = (function ($) {
 		drawBoard: function (board) {
 			var rows = board.getRows();
 			var gameArea = $("#board");
-			console.log(rows);
 			for (var i = 0; i < rows.length; i++) {
 				var row = rows[i];
 				for (var j = 0; j < row.length; j++) {
@@ -134,9 +133,21 @@ CandyCrush.ui = (function ($) {
 				});
 			}, 1000);
 		},
+		addCandy: function(candy, rowNum, colNum, countEmptyInRow){
+			var left = colNum * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES) + ui.MARGIN_BETWEEN_CANDIES / 2;
+			var top = - ((countEmptyInRow - rowNum) * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES) - ui.MARGIN_BETWEEN_CANDIES / 2);
+			
+			var gameArea = $("#board");
+			var sprite = candy.getSprite();
+			gameArea.append(sprite);
+			
+			sprite.css({
+				left: left,
+				top: top
+			});
+		},
 		dropCandies: function(duration, board){
 			var rows = board.getRows();
-			
 			for (var i = 0; i < rows.length; i++) {
 				for (var j = 0; j < rows[i].length; j++) {
 					var candy = rows[i][j];
