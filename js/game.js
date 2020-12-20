@@ -1,5 +1,5 @@
 var CandyCrush = window.CandyCrush || {};
-
+//game controller
 CandyCrush.Game = (function ($) {
 	"use strict";
 	
@@ -7,10 +7,12 @@ CandyCrush.Game = (function ($) {
 		var board;
 		var firstCandy;
 
+		//inits game
 		this.init = function () {
 			$("#start-game").on("click", startGame);
 		};
 
+		//starts game's logic
 		var startGame = function () {
 			$("#start-game").off("click");
 			CandyCrush.ui.hideDialog();
@@ -19,55 +21,68 @@ CandyCrush.Game = (function ($) {
 			board = new CandyCrush.Board();
 			CandyCrush.ui.drawBoard(board);
 			
-			var delay = 1000;
-			var groups = board.getGroups();
-			synchCrushDropRepeat(groups, delay);
-
-			firstCandy = null;
-			$(".candy").on("click", clickCandy);
+				//get groups of candies bigger than 2
+				var groups = board.getGroups();
+				firstCandy = null;
+				if(groups.length > 0){
+					var delay = 200;
+					var dropDuration = 175;
+					//crush then drop candies repetitively when groups bigger than 3 exists, cuts off (.candy).onclick while working then adds it at the end
+					synchCrushDropRepeat(groups, dropDuration, delay);
+				} else {
+					$(".candy").on("click", swapCandies);
+				}
 		};
 
-		var clickCandy = function (e) {
+		//swaps candies every second click
+		var swapCandies = function (e) {
 			console.log("clicked");
-			var duration = 250;
+			var swapDuration = 250;
 			var secondCandy = null;
 
 			var candy = CandyCrush.ui.getCandyClicked(e, board);
 
-			if (!firstCandy){
+			
+			if (!firstCandy){ //if first candy doesn't exist set it
 				firstCandy = candy;
 				CandyCrush.ui.setHighlightToCandy(firstCandy);
-			} else if (firstCandy) {
+			} else if (firstCandy) { //if first candy exists set second candy
 				secondCandy = candy;
 
+				//if first candy is not second candy 
 				if( !(firstCandy.getRow() == secondCandy.getRow() && firstCandy.getCol() == secondCandy.getCol()) ){
 					var	isAround = CandyCrush.ui.checkIfCandyIsAround(firstCandy, secondCandy, board);
-
-					if (isAround){
+					
+					if (isAround){ //if second candy is around get their coords and swap
 						var firstCandyLeft = firstCandy.getCoords().left;
 						var firstCandyTop = firstCandy.getCoords().top;
 						var secondCandyLeft = secondCandy.getCoords().left;
 						var secondCandyTop = secondCandy.getCoords().top;
 						
-						CandyCrush.ui.swapCandies(firstCandy, secondCandy, firstCandyLeft, firstCandyTop, secondCandyLeft, secondCandyTop, duration);
+						CandyCrush.ui.swapCandies(firstCandy, secondCandy, firstCandyLeft, firstCandyTop, secondCandyLeft, secondCandyTop, swapDuration);
 						board.swapCandies(firstCandy, secondCandy);	
-						var groups = board.getGroups();
-						if(groups.length > 0){
-							var delay = 1000;
-							synchCrushDropRepeat(groups, delay);
+						
+						//get groups of candies bigger than 2
+						var groups = board.getGroups(); 
+						if(groups.length > 0){ //if there is atleast 1 group
+							var delay = 200;
+							var dropDuration = 175;
+							//crush then drop candies repetitively when groups bigger than 3 exists, cuts off (.candy).onclick while working
+							synchCrushDropRepeat(groups, dropDuration, delay);
 						} else {
-							CandyCrush.ui.swapCandies(firstCandy, secondCandy, secondCandyLeft, secondCandyTop, firstCandyLeft, firstCandyTop, duration);
+							//swap candies back
+							CandyCrush.ui.swapCandies(firstCandy, secondCandy, secondCandyLeft, secondCandyTop, firstCandyLeft, firstCandyTop, swapDuration);
 							board.swapCandies(firstCandy, secondCandy);
 						}
 						
 						CandyCrush.ui.deleteHighlightFromCandy(firstCandy);
 						firstCandy = null;
-					} else {
+					} else { //if second candy is not around set firstCandy to secondCandy
 						CandyCrush.ui.deleteHighlightFromCandy(firstCandy);
 						firstCandy = secondCandy;
 						CandyCrush.ui.setHighlightToCandy(firstCandy);
 					}
-				} else {
+				} else { //if firstCandy is secondCandy set it to null
 					CandyCrush.ui.deleteHighlightFromCandy(firstCandy);
 					firstCandy = null;	
 				};
@@ -75,6 +90,7 @@ CandyCrush.Game = (function ($) {
 		};
 		
 		var crushCandies = function(groups){
+			//delete every candy of groups bigger than 2
 			$.each(groups, function(){
 				var candies = this;
 				$.each(candies, function(){
@@ -84,15 +100,22 @@ CandyCrush.Game = (function ($) {
 				});
 			});
 		};
-		var dropCandies = function(){
-				var duration = 200;
+		var dropCandies = function(dropDuration){
 
+				console.log(dropDuration);
+				//drop candies in game logic
 				board.dropCandies();
 	
+				//gets places where there is no candies
 				var emptyPlaces = board.getEmptyPlaces();
 
+				var maxEmptyInRow = 0;
+				//adds candy to each place with no candy
 				$.each(emptyPlaces, function(){
 					var emptyInRow = this;
+					if(emptyInRow.length > maxEmptyInRow){
+						maxEmptyInRow = emptyInRow.length;
+					}
 					$.each(emptyInRow, function(){
 						var position = this;
 						var candy = CandyCrush.Candy.create();
@@ -100,19 +123,25 @@ CandyCrush.Game = (function ($) {
 						CandyCrush.ui.addCandy(candy, position.row, position.col, emptyInRow.length);
 					})
 				});
-				CandyCrush.ui.dropCandies(duration, board);
+						//console.log(dropDuration);
+				CandyCrush.ui.dropCandies(dropDuration, board);
+				return maxEmptyInRow;
 		};
-		var synchCrushDropRepeat = function(groups, delay){
+		var synchCrushDropRepeat = function(groups, dropDuration, delay){
+			//var maxEmptyVertical;
+				//recursionaly crush then dropping candies till there is no groups of candies bigger than 3
 				$(".candy").off("click");
 				setTimeout(function(){
 					crushCandies(groups);
-					dropCandies(board);
+					var maxEmptyVertical = dropCandies(dropDuration);
 					groups = board.getGroups();
 					
 					if(groups.length > 0){
-						synchCrushDropRepeat(groups, delay);
+						//calculate dropping animation time
+						delay = dropDuration * maxEmptyVertical;
+						synchCrushDropRepeat(groups, dropDuration, delay);
 					} else {
-						$(".candy").on("click", clickCandy);
+						$(".candy").on("click", swapCandies);
 					}
 					
 				}, delay);

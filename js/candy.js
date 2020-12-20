@@ -1,5 +1,5 @@
 var CandyCrush = window.CandyCrush || {};
-
+//candy constructor, keeps informations about each candy created
 CandyCrush.Candy = (function ($) {
 	"use strict";
 
@@ -23,14 +23,14 @@ CandyCrush.Candy = (function ($) {
 		this.setRow = function (rowIn) {
 			row = rowIn;
 		}
-		this.getOffset = function () {
+		this.getOffset = function () { //gets coords relatively to viewport
 			var offset = {
 				left: $("#board").offset().left + that.getCol() * (CandyCrush.ui.MARGIN_BETWEEN_CANDIES + CandyCrush.ui.CANDY_SIZE) + CandyCrush.ui.MARGIN_BETWEEN_CANDIES / 2,
 				top: $("#board").offset().top + that.getRow() * (CandyCrush.ui.MARGIN_BETWEEN_CANDIES + CandyCrush.ui.CANDY_SIZE) + CandyCrush.ui.MARGIN_BETWEEN_CANDIES / 2
 			};
 			return offset;
 		};
-		this.getCoords = function () {
+		this.getCoords = function () { //gets coorsd relatively to its contener
 			var coords = {
 				left: sprite.position().left,
 				top: sprite.position().top,

@@ -1,5 +1,5 @@
 var CandyCrush = window.CandyCrush || {};
-
+//ui keeps informations about user interface and changes it
 CandyCrush.ui = (function ($) {
 	"use strict";
 	
@@ -7,7 +7,6 @@ CandyCrush.ui = (function ($) {
 		CANDY_SIZE: 60,
 		MARGIN_BETWEEN_CANDIES: 15,
 		init: function () {
-
 		},
 		hideDialog: function () {
 			$(".dialog").fadeToggle(300);
@@ -75,10 +74,10 @@ CandyCrush.ui = (function ($) {
 			
 			sprite.css("background-color", "rgba(255,255,255,0");
 		},
-		checkIfCandyIsAround: function(selectedCandy, secondCandy, board){
+		checkIfCandyIsAround: function(firstCandy, secondCandy, board){
 			var isAround = false;
 			
-			var candies = board.getCandiesAround(selectedCandy.getRow(), selectedCandy.getCol());
+			var candies = board.getCandiesAround(firstCandy.getRow(), firstCandy.getCol());
 			
 			for(var i = 0; i < candies.length; i++){
 				if(candies[i].getRow() == secondCandy.getRow() && candies[i].getCol() == secondCandy.getCol()){

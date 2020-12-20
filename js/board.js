@@ -1,5 +1,5 @@
 var CandyCrush = window.CandyCrush || {};
-
+//board constructor, keeps informations about each candy inside board
 CandyCrush.Board = (function ($) {
 	"use strict";
 	
@@ -41,43 +41,47 @@ CandyCrush.Board = (function ($) {
 		this.deleteCandyAt = function (rowNum, colNum){
 			delete rows[rowNum][colNum];
 		},
-		this.getCandiesAround = function(curRow, curCol){
+		this.getCandiesAround = function(rowNum, colNum){
+			//returns 4 candies (up,down,left,right relative to candy) inside array
 			var candies = [];
 			
-			if(curRow - 1 >= 0){
-				var candyAt = that.getCandyAt(curRow - 1, curCol);
+			if(rowNum - 1 >= 0){
+				var candyAt = that.getCandyAt(rowNum - 1, colNum);
 				candies.push(candyAt)
 			} 
-			if(curRow + 1 < rows.length){
-				var candyAt = that.getCandyAt(curRow + 1, curCol);
+			if(rowNum + 1 < rows.length){
+				var candyAt = that.getCandyAt(rowNum + 1, colNum);
 				candies.push(candyAt)
 			}
-			if(curCol - 1 >= 0){
-				var candyAt = that.getCandyAt(curRow, curCol - 1);
+			if(colNum - 1 >= 0){
+				var candyAt = that.getCandyAt(rowNum, colNum - 1);
 				candies.push(candyAt)
 			} 
-			if(curCol + 1 < rows[curRow].length){
-				var candyAt = that.getCandyAt(curRow, curCol + 1);
+			if(colNum + 1 < rows[rowNum].length){
+				var candyAt = that.getCandyAt(rowNum, colNum + 1);
 				candies.push(candyAt)
 			}
 			
 			return candies;
 		},
 		this.getGroups = function(){
+			//returns each group of candies on board bigger than 3
 			var groups = [];
 			
 			//horizontal
 			var nextType = null;
-			for(var i = 0; i < rows.length; i++){
+			for(var rowNum = 0; rowNum < rows.length; rowNum++){
 				var group = [];
-				for(var j = 0; j < rows[i].length; j++){
+				for(var colNum = 0; colNum < rows[rowNum].length; colNum++){
 					
-					var candy = that.getCandyAt(i, j);
+					var candy = that.getCandyAt(rowNum, colNum);
 					var type = candy.getType();
 					
-					if(j + 1 < rows.length){
-						nextType = that.getCandyAt(i, j + 1).getType();
-					} else nextType = null;
+					if(colNum + 1 < rows.length){
+						nextType = that.getCandyAt(rowNum, colNum + 1).getType();
+					} else {
+						nextType = null
+					}
 					
 					group.push(candy);
 					
@@ -90,16 +94,18 @@ CandyCrush.Board = (function ($) {
 			}
 			//vertical
 			var nextType = null;
-			for(var i = 0; i < rows.length; i++){
+			for(var colNum = 0; colNum < rows.length; colNum++){
 				var group = [];
-				for(var j = 0; j < rows[i].length; j++){
+				for(var rowNum = 0; rowNum < rows[colNum].length; rowNum++){
 					
-					var candy = that.getCandyAt(j, i);
+					var candy = that.getCandyAt(rowNum, colNum);
 					var type = candy.getType();
 					
-					if(j + 1 < rows.length){
-						nextType = that.getCandyAt(j + 1, i).getType();
-					} else nextType = null;
+					if(rowNum + 1 < rows.length){
+						nextType = that.getCandyAt(rowNum + 1, colNum).getType();
+					} else {
+						nextType = null
+					}
 					
 					group.push(candy);
 					if(!(type == nextType)){
@@ -112,6 +118,8 @@ CandyCrush.Board = (function ($) {
 			return groups;
 		},
 		this.getCandiesOfType = function(type){
+			//if type is not set groups candies of each tpye
+			//if type is set groups only candies of one type
 			var candies = {}
 			
 			for(var rowNum = 0; rowNum < rows.length; rowNum++){
@@ -137,26 +145,32 @@ CandyCrush.Board = (function ($) {
 			return candies;
 		},
 		this.dropCandies = function(){
+			//finds empty places then add it to array afterwards looks for closest candy to fill it, iteration goes from bottom to top and left to right
+			
 			var emptyPlaces = [];	
 			for(var colNum = 0; colNum < rows.length; colNum++){
 				var emptyInRow = [];
 				for(var rowNum = (rows[colNum].length - 1); rowNum >= 0 ; rowNum--){
 					var position = {};
 					var candy = rows[rowNum][colNum];
-					if(candy === undefined){
+					if(candy === undefined){ 
+						//sets empty position
 						position.row = rowNum;
 						position.col = colNum;
 						emptyInRow.push(position);
 					}
 					if(candy !== undefined && emptyInRow.length > 0){
+						//sets cur candy to oldest empty position
 						var position = emptyInRow[0]; 
 						candy.setRow(position.row);
 						candy.setCol(position.col);
 						rows[position.row][position.col] = candy;
 						
+						//deletes cur candy
 						delete rows[rowNum][colNum];
 						emptyInRow.shift();
 						
+						//sets cur candy place to empty place
 						if(rows[rowNum][colNum] === undefined){
 							position.row = rowNum;
 							position.col = colNum;
@@ -168,6 +182,8 @@ CandyCrush.Board = (function ($) {
 			}
 		},
 		this.getEmptyPlaces = function(){
+			//gets each empty place
+			
 			var emptyPlaces = [];
 			for(var colNum = 0; colNum < rows.length; colNum++){
 				var emptyInRow = [];
