@@ -21,6 +21,23 @@ CandyCrush.Board = (function ($) {
 			candy.setRow(rowNum);
 			candy.setCol(colNum);
 		},
+		this.swapCandies = function(candy1, candy2){
+			var row1 = candy1.getRow();
+			var col1 = candy1.getCol();
+			
+			var row2 = candy2.getRow();
+			var col2 = candy2.getCol();
+			
+			var temp = rows[row1][col1];
+			
+			rows[row1][col1] = rows[row2][col2];
+			rows[row2][col2] = temp;
+			
+			candy1.setRow(row2);
+			candy1.setCol(col2);
+			candy2.setRow(row1);
+			candy2.setCol(col1);
+		},
 		this.deleteCandyAt = function (rowNum, colNum){
 			delete rows[rowNum][colNum];
 		},

@@ -5,7 +5,7 @@ CandyCrush.Game = (function ($) {
 	
 	var Game = function () {
 		var board;
-		var selectedCandy;
+		var firstCandy;
 
 		this.init = function () {
 			$("#start-game").on("click", startGame);
@@ -19,57 +19,62 @@ CandyCrush.Game = (function ($) {
 			board = new CandyCrush.Board();
 			CandyCrush.ui.drawBoard(board);
 			
-			
 			var delay = 1000;
 			var groups = board.getGroups();
 			synchCrushDropRepeat(groups, delay);
-			//groups = board.getGroups();
-			//delay = 3000;
-			//crushCandies(groups, delay);
-			//dropCandies(board, delay);
-			//while(groups.length > 0) {
-					//var delay = 2000;
-					//groups = board.getGroups();
-					//crushCandies(groups, delay);
-					//dropCandies(board, delay);
-			//} 
 
-			selectedCandy = null;
-			//$(".candy").on("click", clickCandy);
+			firstCandy = null;
+			$(".candy").on("click", clickCandy);
 		};
 
 		var clickCandy = function (e) {
+			console.log("clicked");
 			var duration = 250;
-			var curCandy = null;
+			var secondCandy = null;
 
 			var candy = CandyCrush.ui.getCandyClicked(e, board);
 
-			/*if (!selectedCandy){
-				selectedCandy = candy;
-				CandyCrush.ui.setHighlightToCandy(selectedCandy);
-			} else if (selectedCandy) {
-				curCandy = candy;
+			if (!firstCandy){
+				firstCandy = candy;
+				CandyCrush.ui.setHighlightToCandy(firstCandy);
+			} else if (firstCandy) {
+				secondCandy = candy;
 
-				if( !(selectedCandy.getRow() == curCandy.getRow() && selectedCandy.getCol() == curCandy.getCol()) ){
-					let	isAround = CandyCrush.ui.checkIfCandyIsAround(selectedCandy, curCandy, board);
+				if( !(firstCandy.getRow() == secondCandy.getRow() && firstCandy.getCol() == secondCandy.getCol()) ){
+					var	isAround = CandyCrush.ui.checkIfCandyIsAround(firstCandy, secondCandy, board);
 
 					if (isAround){
-						CandyCrush.ui.swapCandies(selectedCandy, curCandy, board, duration);	
-						CandyCrush.ui.deleteHighlightFromCandy(selectedCandy);
-						selectedCandy = null;
+						var firstCandyLeft = firstCandy.getCoords().left;
+						var firstCandyTop = firstCandy.getCoords().top;
+						var secondCandyLeft = secondCandy.getCoords().left;
+						var secondCandyTop = secondCandy.getCoords().top;
+						
+						CandyCrush.ui.swapCandies(firstCandy, secondCandy, firstCandyLeft, firstCandyTop, secondCandyLeft, secondCandyTop, duration);
+						board.swapCandies(firstCandy, secondCandy);	
+						var groups = board.getGroups();
+						if(groups.length > 0){
+							var delay = 1000;
+							synchCrushDropRepeat(groups, delay);
+						} else {
+							CandyCrush.ui.swapCandies(firstCandy, secondCandy, secondCandyLeft, secondCandyTop, firstCandyLeft, firstCandyTop, duration);
+							board.swapCandies(firstCandy, secondCandy);
+						}
+						
+						CandyCrush.ui.deleteHighlightFromCandy(firstCandy);
+						firstCandy = null;
 					} else {
-						CandyCrush.ui.deleteHighlightFromCandy(selectedCandy);
-						selectedCandy = curCandy;
-						CandyCrush.ui.setHighlightToCandy(selectedCandy);
+						CandyCrush.ui.deleteHighlightFromCandy(firstCandy);
+						firstCandy = secondCandy;
+						CandyCrush.ui.setHighlightToCandy(firstCandy);
 					}
 				} else {
-					CandyCrush.ui.deleteHighlightFromCandy(selectedCandy);
-					selectedCandy = null;	
+					CandyCrush.ui.deleteHighlightFromCandy(firstCandy);
+					firstCandy = null;	
 				};
-			};*/
+			};
 		};
 		
-		var crushCandies = function(groups, delay){
+		var crushCandies = function(groups){
 			$.each(groups, function(){
 				var candies = this;
 				$.each(candies, function(){
@@ -79,7 +84,7 @@ CandyCrush.Game = (function ($) {
 				});
 			});
 		};
-		var dropCandies = function(delay){
+		var dropCandies = function(){
 				var duration = 200;
 
 				board.dropCandies();
@@ -98,6 +103,7 @@ CandyCrush.Game = (function ($) {
 				CandyCrush.ui.dropCandies(duration, board);
 		};
 		var synchCrushDropRepeat = function(groups, delay){
+				$(".candy").off("click");
 				setTimeout(function(){
 					crushCandies(groups);
 					dropCandies(board);
@@ -105,6 +111,8 @@ CandyCrush.Game = (function ($) {
 					
 					if(groups.length > 0){
 						synchCrushDropRepeat(groups, delay);
+					} else {
+						$(".candy").on("click", clickCandy);
 					}
 					
 				}, delay);

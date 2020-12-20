@@ -55,11 +55,12 @@ CandyCrush.ui = (function ($) {
 				for (var j = 0; j < rows.length; j++) {
 					var candy = rows[i][j];
 					if(candy !== undefined)	{
-						var candyCoords = this.getCandyCoords();
-					}
-					if ( ( (ui.getMouseCoords(e).x >= candyCoords.left) && (ui.getMouseCoords(e).x <= candyCoords.left + ui.CANDY_SIZE) ) && ( (ui.getMouseCoords(e).y >= candyCoords.top) && (ui.getMouseCoords(e).y <= candyCoords.top + ui.CANDY_SIZE) ) ) {
-						var candy = board.getCandyAt(i,j);
-						return candy;
+						var candyCoords = this.getCandyCoords(candy);
+						
+						if ( ( (ui.getMouseCoords(e).x >= candyCoords.left) && (ui.getMouseCoords(e).x <= candyCoords.left + ui.CANDY_SIZE) ) && ( (ui.getMouseCoords(e).y >= candyCoords.top) && (ui.getMouseCoords(e).y <= candyCoords.top + ui.CANDY_SIZE) ) ) {
+							var candy = board.getCandyAt(i,j);
+							return candy;
+						}
 					}
 				}
 			}
@@ -86,52 +87,23 @@ CandyCrush.ui = (function ($) {
 			}
 			return isAround;
 		},
-		swapCandies: function(selectedCandy, secondCandy, board, duration){
-			var selectedCandy = board.getCandyAt(selectedCandy.getRow(), selectedCandy.getCol());
-			var selectedCandyLeft = selectedCandy.getCoords().left; 
-			var selectedCandyTop = selectedCandy.getCoords().top;	
-			
-			var secondCandy = board.getCandyAt(secondCandy.getRow(), secondCandy.getCol());
-			var secondCandyLeft = secondCandy.getCoords().left;
-			var secondCandyTop = secondCandy.getCoords().top;
-			
-			selectedCandy.getSprite().animate({
+		swapCandies: function(firstCandy, secondCandy, firstCandyLeft, firstCandyTop, secondCandyLeft, secondCandyTop, duration){
+			firstCandy.getSprite().animate({
 				left: secondCandyLeft,
 				top: secondCandyTop
 			},
 			{
 				duration: duration,
-				easing: "linear"
+				easing: "linear",
 			});
-			
 			secondCandy.getSprite().animate({
-				left: selectedCandyLeft,
-				top: selectedCandyTop
+				left: firstCandyLeft,
+				top: firstCandyTop
 			},
 			{
 				duration: duration,
 				easing: "linear"
 			});
-			
-			setTimeout(function(){
-				selectedCandy.getSprite().animate({
-					left: selectedCandyLeft,
-					top: selectedCandyTop
-				},
-				{
-					duration: duration,
-					easing: "linear"
-				});
-
-				secondCandy.getSprite().animate({
-					left: secondCandyLeft,
-					top: secondCandyTop
-				},
-				{
-					duration: duration,
-					easing: "linear"
-				});
-			}, 1000);
 		},
 		addCandy: function(candy, rowNum, colNum, countEmptyInRow){
 			var left = colNum * (ui.CANDY_SIZE + ui.MARGIN_BETWEEN_CANDIES) + ui.MARGIN_BETWEEN_CANDIES / 2;
